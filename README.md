@@ -128,9 +128,8 @@ Executive-Sales-MIS-Dashboard/
 ├── powerbi/
 │   ├── p.pbix                          # Interactive compiled Power BI executive dashboard
 │   ├── p_backup.pbip                   # Git-friendly Power BI project file (Developer Mode)
-│   ├── p_backup.Report/                # Human-readable report visual configurations
-│   ├── p_backup.SemanticModel/         # Human-readable semantic model & TMDL measures
-│   └── report_definitions/             # Visual theme definitions & page JSON layouts
+│   ├── p_backup.Report/                # Report visual configurations & layout definitions
+│   └── p_backup.SemanticModel/         # Semantic model, table relationships & TMDL measures
 ├── sql/
 │   ├── 01_schema.sql                   # stg, core, rpt, audit schemas & table DDL
 │   ├── 02_load_core.sql                # Star schema dimension & fact ETL with idempotent UPSERTs
@@ -149,8 +148,8 @@ Executive-Sales-MIS-Dashboard/
 │   ├── download_data.py                # Dataset acquisition & Kaggle API auto-downloader
 │   └── run_pipeline.py                 # End-to-end master analytics orchestrator
 ├── reports/
-│   ├── monthly_mis/                    # C-suite Excel MIS packs (.xlsx) & RFM reports (.md)
-│   └── data_quality/                   # Profiling logs and audit health records (.md)
+│   ├── monthly_mis/                    # C-suite Excel MIS packs (.xlsx) & segment metrics (.csv)
+│   └── data_quality/                   # Data quality audit directory (.gitkeep)
 ├── data/
 │   ├── raw/                            # Read-only raw transaction data (.gitkeep)
 │   ├── processed/                      # Cleaned and audited datasets (.gitkeep)

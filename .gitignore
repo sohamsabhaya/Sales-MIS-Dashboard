@@ -30,8 +30,9 @@ data/quarantine/*.csv
 
 # Generated Reports & Logs
 reports/monthly_mis/*.xlsx
+reports/monthly_mis/*.md
 reports/data_quality/*.csv
-reports/data_quality/data_quality_report_*_*.md
+reports/data_quality/*.md
 logs/*.log
 !logs/.gitkeep
 !reports/data_quality/.gitkeep
