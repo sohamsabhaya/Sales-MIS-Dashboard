@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "c3a77650d44547b5a9e5",
   "position": {
-    "x": 20.0,
-    "y": 200.0,
+    "x": 20,
+    "y": 200,
     "z": 5,
-    "height": 370.0,
-    "width": 1150.0,
+    "height": 370,
+    "width": 1150,
     "tabOrder": 5
   },
   "visual": {
@@ -145,13 +145,6 @@
               "expr": {
                 "Literal": {
                   "Value": "0D"
-                }
-              }
-            },
-            "maxMarginFactor": {
-              "expr": {
-                "Literal": {
-                  "Value": "25L"
                 }
               }
             }

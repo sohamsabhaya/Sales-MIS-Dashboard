@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "32cc485f93fa4f05bc16",
   "position": {
-    "x": 20.0,
-    "y": 585.0,
+    "x": 20,
+    "y": 585,
     "z": 7,
-    "height": 235.0,
-    "width": 1880.0,
+    "height": 235,
+    "width": 1880,
     "tabOrder": 7
   },
   "visual": {
@@ -103,20 +103,6 @@
               },
               "queryRef": "Sum(rpt v_regional_performance.orders_count)",
               "nativeQueryRef": "Orders Count"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "rpt v_regional_performance"
-                    }
-                  },
-                  "Property": "Regional Contribution %"
-                }
-              },
-              "queryRef": "rpt v_regional_performance.Regional Contribution %",
-              "nativeQueryRef": "Regional Contribution %"
             },
             {
               "field": {
@@ -387,12 +373,7 @@
                             }
                           }
                         }
-                      ],
-                      "Default": {
-                        "Literal": {
-                          "Value": "'#FFCDD2'"
-                        }
-                      }
+                      ]
                     }
                   }
                 }
@@ -438,12 +419,7 @@
                             }
                           }
                         }
-                      ],
-                      "Default": {
-                        "Literal": {
-                          "Value": "'#2E7D32'"
-                        }
-                      }
+                      ]
                     }
                   }
                 }
@@ -594,20 +570,6 @@
             "alignment": {
               "expr": {
                 "Literal": {
-                  "Value": "'Right'"
-                }
-              }
-            }
-          },
-          "selector": {
-            "metadata": "rpt v_regional_performance.Regional Contribution %"
-          }
-        },
-        {
-          "properties": {
-            "alignment": {
-              "expr": {
-                "Literal": {
                   "Value": "'Left'"
                 }
               }
@@ -642,5 +604,112 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "af896e8960c45178544a",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "rpt v_regional_performance"
+              }
+            },
+            "Property": "region_name"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "a39fbc2ad3b071493180",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "rpt v_regional_performance"
+              }
+            },
+            "Property": "Regional Actual Revenue"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "72492d7819a00876ee9c",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "rpt v_regional_performance"
+              }
+            },
+            "Property": "Regional Target Revenue"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "e7be1e9f61c907400532",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "rpt v_regional_performance"
+              }
+            },
+            "Property": "Target Achievement Rate"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "6aa01906b76761d6a478",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "rpt v_regional_performance"
+              }
+            },
+            "Property": "Budget Variance"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "49ce4c9a10bb03ed5542",
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "rpt v_regional_performance"
+                  }
+                },
+                "Property": "orders_count"
+              }
+            },
+            "Function": 0
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "c563c526d73b5a71342c",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "rpt v_regional_performance"
+              }
+            },
+            "Property": "Regional Performance Status"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

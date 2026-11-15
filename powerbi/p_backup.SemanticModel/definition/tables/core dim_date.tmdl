@@ -1,6 +1,6 @@
 table 'core dim_date'
-	dataCategory: Time
 	lineageTag: da5c9a7b-fa7d-497b-ab9d-9254ff21a9ea
+	dataCategory: Time
 
 	column date_key
 		dataType: int64
@@ -116,3 +116,4 @@ table 'core dim_date'
 				    core_dim_date
 
 	annotation PBI_ResultType = Table
+

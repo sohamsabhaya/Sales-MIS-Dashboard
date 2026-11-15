@@ -1,41 +1,15 @@
 table 'rpt v_monthly_kpis'
 	lineageTag: dde6dafd-ec97-467e-b50b-fdb0d6dd5983
 
-	measure 'Gross Revenue' = ```
-			SUM('rpt v_monthly_kpis'[gross_revenue])
-			```
-		formatString: "$ " #,##0.00;("$ " #,##0.00);"$ " 0.00
-		lineageTag: 292afb00-299e-49da-b6c7-222aa4192a6f
-
-	measure 'Total Revenue' = ```
-			[Gross Revenue]
-			```
+	measure 'Total Revenue' = [Gross Revenue]
 		formatString: "$ " #,##0.00;("$ " #,##0.00);"$ " 0.00
 		lineageTag: b79e13d4-1a3b-48c2-a9b1-5e830e9d6f31
 
-	measure 'Total Orders' = ```
-			SUM('rpt v_monthly_kpis'[total_orders])
-			```
+	measure 'Total Orders' = SUM('rpt v_monthly_kpis'[total_orders])
 		formatString: #,0
 		lineageTag: ce946ebd-3f4d-4c17-a1b6-e7b78f986275
 
-	measure 'Average Order Value' = ```
-			DIVIDE([Gross Revenue], [Total Orders], 0)
-			```
-		formatString: "$ " #,##0.00;("$ " #,##0.00);"$ " 0.00
-		lineageTag: 5a5c01dc-b99c-4937-b9c2-55ea652964f4
-
-	measure 'Cancelled Orders' = ```
-			CALCULATE(
-			    DISTINCTCOUNT('core fact_order'[order_id]),
-			    'core fact_order'[order_status] IN { "canceled", "unavailable" },
-			    TREATAS(VALUES('rpt v_monthly_kpis'[year_month]), 'core dim_date'[year_month])
-			)
-			```
-		formatString: #,0
-		lineageTag: c37a89e1-5bf2-41d3-a5c9-940bb2e1f487
-
-	measure 'Cancellation Rate' = ```
+	measure 'Cancellation Rate' =
 			DIVIDE(
 			    [Cancelled Orders],
 			    CALCULATE(
@@ -44,11 +18,27 @@ table 'rpt v_monthly_kpis'
 			    ),
 			    0
 			)
-			```
 		formatString: 0.00%
 		lineageTag: b31948de-696b-42ac-af80-c5768e351509
 
-	measure 'Previous Month Revenue' = ```
+	measure 'Average Order Value' = DIVIDE([Gross Revenue], [Total Orders], 0)
+		formatString: "$ " #,##0.00;("$ " #,##0.00);"$ " 0.00
+		lineageTag: 5a5c01dc-b99c-4937-b9c2-55ea652964f4
+
+	measure 'Gross Revenue' = SUM('rpt v_monthly_kpis'[gross_revenue])
+		formatString: "$ " #,##0.00;("$ " #,##0.00);"$ " 0.00
+		lineageTag: 292afb00-299e-49da-b6c7-222aa4192a6f
+
+	measure 'Cancelled Orders' =
+			CALCULATE(
+			    DISTINCTCOUNT('core fact_order'[order_id]),
+			    'core fact_order'[order_status] IN { "canceled", "unavailable" },
+			    TREATAS(VALUES('rpt v_monthly_kpis'[year_month]), 'core dim_date'[year_month])
+			)
+		formatString: #,0
+		lineageTag: c37a89e1-5bf2-41d3-a5c9-940bb2e1f487
+
+	measure 'Previous Month Revenue' =
 			VAR HasSingleMonth = HASONEVALUE('rpt v_monthly_kpis'[year_month])
 			VAR SelectedYM = SELECTEDVALUE('rpt v_monthly_kpis'[year_month])
 			VAR LatestActiveYM = CALCULATE(
@@ -83,11 +73,10 @@ table 'rpt v_monthly_kpis'
 			)
 			RETURN
 			    COALESCE(MonthRevenue, DateTableRevenue)
-			```
 		formatString: "$ " #,##0.00;("$ " #,##0.00);"$ " 0.00
 		lineageTag: d1a45bf2-98e3-4ca1-8174-9f3b5e408c1a
 
-	measure 'MoM Revenue Growth' = ```
+	measure 'MoM Revenue Growth' =
 			VAR HasSingleMonth = HASONEVALUE('rpt v_monthly_kpis'[year_month])
 			VAR SelectedYM = SELECTEDVALUE('rpt v_monthly_kpis'[year_month])
 			VAR LatestActiveYM = CALCULATE(
@@ -108,11 +97,10 @@ table 'rpt v_monthly_kpis'
 			        PreviousRevenue,
 			        BLANK()
 			    )
-			```
 		formatString: 0.00%
 		lineageTag: a7e39bc1-54b2-4d0f-8914-1e24bc98e721
 
-	measure 'Previous Year Revenue' = ```
+	measure 'Previous Year Revenue' =
 			VAR HasSingleMonth = HASONEVALUE('rpt v_monthly_kpis'[year_month])
 			VAR SelectedYM = SELECTEDVALUE('rpt v_monthly_kpis'[year_month])
 			VAR LatestActiveYM = CALCULATE(
@@ -157,11 +145,10 @@ table 'rpt v_monthly_kpis'
 			)
 			RETURN
 			    COALESCE(MonthRevenue, YearRevenue, DateTableRevenue)
-			```
 		formatString: "$ " #,##0.00;("$ " #,##0.00);"$ " 0.00
 		lineageTag: f49e12c8-71e9-408a-b83c-68de4198ef01
 
-	measure 'YoY Revenue Growth' = ```
+	measure 'YoY Revenue Growth' =
 			VAR HasSingleMonth = HASONEVALUE('rpt v_monthly_kpis'[year_month])
 			VAR SelectedYM = SELECTEDVALUE('rpt v_monthly_kpis'[year_month])
 			VAR SelectedYear = SELECTEDVALUE('rpt v_monthly_kpis'[year])
@@ -188,7 +175,6 @@ table 'rpt v_monthly_kpis'
 			        PreviousRevenue,
 			        BLANK()
 			    )
-			```
 		formatString: 0.00%
 		lineageTag: 712da09e-8c3b-46e2-9fb4-5a7c29be01e3
 
@@ -305,3 +291,4 @@ table 'rpt v_monthly_kpis'
 				    rpt_v_monthly_kpis = Source{[Schema="rpt",Item="v_monthly_kpis"]}[Data]
 				in
 				    rpt_v_monthly_kpis
+

@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "03a2051d362ae96a2836",
   "position": {
-    "x": 1190.0,
-    "y": 325.0,
+    "x": 1189.712390492303,
+    "y": 232.59083066718034,
     "z": 5,
-    "height": 735.0,
-    "width": 710.0,
+    "height": 827.44702591333191,
+    "width": 710.12244761218778,
     "tabOrder": 5
   },
   "visual": {
@@ -32,6 +32,24 @@
             }
           ]
         },
+        "Tooltips": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "rpt v_category_performance"
+                    }
+                  },
+                  "Property": "Category Contribution %"
+                }
+              },
+              "queryRef": "rpt v_category_performance.Category Contribution %",
+              "nativeQueryRef": "Category Contribution %"
+            }
+          ]
+        },
         "Y": {
           "projections": [
             {
@@ -52,24 +70,6 @@
               },
               "queryRef": "Sum(rpt v_category_performance.gross_revenue)",
               "nativeQueryRef": "Gross Revenue"
-            }
-          ]
-        },
-        "Tooltips": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "rpt v_category_performance"
-                    }
-                  },
-                  "Property": "Category Contribution %"
-                }
-              },
-              "queryRef": "rpt v_category_performance.Category Contribution %",
-              "nativeQueryRef": "Category Contribution %"
             }
           ]
         }
@@ -126,13 +126,6 @@
               "expr": {
                 "Literal": {
                   "Value": "false"
-                }
-              }
-            },
-            "maxMarginFactor": {
-              "expr": {
-                "Literal": {
-                  "Value": "30L"
                 }
               }
             }
@@ -324,6 +317,39 @@
             }
           ]
         }
+      },
+      {
+        "name": "fe51faafa0a890776c83",
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "rpt v_category_performance"
+                  }
+                },
+                "Property": "gross_revenue"
+              }
+            },
+            "Function": 0
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "dc1019f6802055a6b083",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "rpt v_category_performance"
+              }
+            },
+            "Property": "Category Contribution %"
+          }
+        },
+        "type": "Advanced"
       }
     ]
   }

@@ -20,17 +20,16 @@ Executive-Sales-MIS-Dashboard
 ```
 
 ### Page 1: Executive Overview — Sales Operations & MIS
+
+![Executive Overview — Sales Operations & MIS Dashboard](docs/images/dashboard_page1_executive_overview.png)
+
 Designed for C-suite operational monitoring, providing macro sales health, growth trends, and category performance:
 
 * **Executive KPI Cards**:
   * **Gross Revenue**: **`$ 13.43M`** — Total company-wide delivered, shipped, invoiced, and approved sales.
   * **Total Orders**: **`98K`** (97,901) — Total revenue-bearing customer transactions.
   * **Average Order Value (AOV)**: **`$ 137.22`** — Unweighted true average order value calculated directly from underlying gross revenue divided by valid order volume.
-  * **Cancellation Rate**: **`11.23%`** — Share of canceled and unavailable orders isolated from valid operational throughput.
-* **Period-over-Period Performance Signals**:
-  * **MoM Revenue Growth**: Dynamic month-over-month trajectory with automatic fallback to latest active operating month (`-3.32%` in August 2018; `+1.71%` in July 2018).
-  * **YoY Revenue Growth**: Year-over-year expansion rate (`+50.53%` in August 2018 vs August 2017).
-  * **Regional Superlatives**: Dynamic identification of top-grossing region (**Southeast**) and lowest target-achievement territory.
+  * **Cancellation Rate**: **`1.24%`** — Share of canceled and unavailable orders isolated from valid operational throughput.
 * **Monthly Revenue & Orders Trend (Dual-Axis Combo Chart)**:
   * Monthly gross revenue plotted as columns against total order volume as an overlaid trend line across all 25 reporting months (September 2016 – October 2018).
 * **Top 10 Product Categories by Gross Revenue**:
@@ -39,6 +38,9 @@ Designed for C-suite operational monitoring, providing macro sales health, growt
 ---
 
 ### Page 2: Regional Performance & Target Scorecard
+
+![Regional Performance & Target Scorecard Dashboard](docs/images/dashboard_page2_regional_performance.png)
+
 Focuses on territorial sales execution, budget variance, and quota attainment across Brazil's 5 macro-regions:
 
 * **Territorial Scorecard KPIs**:
@@ -125,38 +127,12 @@ flowchart TD
 
 ```
 Executive-Sales-MIS-Dashboard/
-├── powerbi/
-│   ├── p.pbix                          # Interactive compiled Power BI executive dashboard
-│   ├── p_backup.pbip                   # Git-friendly Power BI project file (Developer Mode)
-│   ├── p_backup.Report/                # Report visual configurations & layout definitions
-│   └── p_backup.SemanticModel/         # Semantic model, table relationships & TMDL measures
-├── sql/
-│   ├── 01_schema.sql                   # stg, core, rpt, audit schemas & table DDL
-│   ├── 02_load_core.sql                # Star schema dimension & fact ETL with idempotent UPSERTs
-│   ├── 03_kpi_views.sql                # Production KPI views (Monthly, Regional, Category)
-│   ├── 04_analysis_queries.sql         # Strategic business analysis and Pareto ranking queries
-│   ├── 05_reconciliation.sql          # Cross-tool reconciliation audits (0.00 variance checks)
-│   └── 06_rfm_and_cohorts.sql         # RFM customer segmentation and cohort retention SQL views
-├── python/
-│   ├── config.py                       # Configuration loader, paths & DB connection pooling
-│   ├── clean_data.py                   # Data cleaning, DQ rules, anomaly flags & quarantine
-│   ├── generate_targets.py             # Synthetic regional sales targets generator (seed 42)
-│   ├── generate_mis_report.py          # Automated C-suite Excel MIS pack generator (.xlsx)
-│   ├── rfm_analytics.py                # RFM customer segmentation & cohort retention analyzer
-│   ├── inspect_data.py                 # Profiling & SHA-256 provenance checksum generator
-│   ├── load_database.py                # PostgreSQL schema & ETL star schema loader
-│   ├── download_data.py                # Dataset acquisition & Kaggle API auto-downloader
-│   └── run_pipeline.py                 # End-to-end master analytics orchestrator
-├── reports/
-│   ├── monthly_mis/                    # C-suite Excel MIS packs (.xlsx) & segment metrics (.csv)
-│   └── data_quality/                   # Data quality audit directory (.gitkeep)
-├── data/
-│   ├── raw/                            # Read-only raw transaction data (.gitkeep)
-│   ├── processed/                      # Cleaned and audited datasets (.gitkeep)
-│   └── quarantine/                     # Excluded records with rule_id and reason codes (.gitkeep)
-├── config.yaml                         # Central pipeline parameters and KPI rules
-├── docker-compose.yml                  # PostgreSQL 16 container definition
-├── requirements.txt                    # Pinned Python dependencies
-├── EXECUTIVE_INSIGHTS.md               # Executive business insights & strategic recommendations
-└── README.md                           # Executive presentation & system documentation
+├── powerbi/              # Executive Power BI dashboard (.pbix & developer .pbip project)
+├── docs/images/          # Dashboard screenshots for documentation
+├── sql/                  # Star schema DDL, ETL transforms, KPI views & RFM queries
+├── python/               # Data cleaning, target modeling & automated Excel MIS generation
+├── reports/              # Automated executive Excel MIS workbooks & customer summaries
+├── data/                 # Raw, processed, and quarantine transaction storage
+├── EXECUTIVE_INSIGHTS.md # Executive business analysis & strategic takeaways
+└── README.md             # Project documentation & dashboard showcase
 ```

@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "5b6bcfa51c468ae2d42c",
   "position": {
-    "x": 20.0,
-    "y": 325.0,
+    "x": 20.583259351077906,
+    "y": 232.59083066718034,
     "z": 4,
-    "height": 735.0,
-    "width": 1150.0,
+    "height": 827.44702591333191,
+    "width": 1148.5458717901472,
     "tabOrder": 4
   },
   "visual": {
@@ -29,6 +29,38 @@
               "queryRef": "rpt v_monthly_kpis.year_month",
               "nativeQueryRef": "year_month",
               "active": true
+            }
+          ]
+        },
+        "Tooltips": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "rpt v_monthly_kpis"
+                    }
+                  },
+                  "Property": "Average Order Value"
+                }
+              },
+              "queryRef": "rpt v_monthly_kpis.Average Order Value",
+              "nativeQueryRef": "Average Order Value"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "rpt v_monthly_kpis"
+                    }
+                  },
+                  "Property": "MoM Revenue Growth"
+                }
+              },
+              "queryRef": "rpt v_monthly_kpis.MoM Revenue Growth",
+              "nativeQueryRef": "MoM Revenue Growth"
             }
           ]
         },
@@ -65,38 +97,6 @@
               },
               "queryRef": "rpt v_monthly_kpis.Total Orders",
               "nativeQueryRef": "Total Orders"
-            }
-          ]
-        },
-        "Tooltips": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "rpt v_monthly_kpis"
-                    }
-                  },
-                  "Property": "Average Order Value"
-                }
-              },
-              "queryRef": "rpt v_monthly_kpis.Average Order Value",
-              "nativeQueryRef": "Average Order Value"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "rpt v_monthly_kpis"
-                    }
-                  },
-                  "Property": "MoM Revenue Growth"
-                }
-              },
-              "queryRef": "rpt v_monthly_kpis.MoM Revenue Growth",
-              "nativeQueryRef": "MoM Revenue Growth"
             }
           ]
         }
@@ -240,13 +240,6 @@
                 }
               }
             },
-            "labelOverflow": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
-                }
-              }
-            },
             "enableBackground": {
               "expr": {
                 "Literal": {
@@ -374,5 +367,79 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "6e27ef25527cbc498120",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "rpt v_monthly_kpis"
+              }
+            },
+            "Property": "year_month"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "73a787d0d1713be0a5ee",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "rpt v_monthly_kpis"
+              }
+            },
+            "Property": "Gross Revenue"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "ac7ae67506b89e24e3b0",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "rpt v_monthly_kpis"
+              }
+            },
+            "Property": "Total Orders"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "13a731604803b369a276",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "rpt v_monthly_kpis"
+              }
+            },
+            "Property": "Average Order Value"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "e2f53325b2325dd620ed",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "rpt v_monthly_kpis"
+              }
+            },
+            "Property": "MoM Revenue Growth"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

@@ -1,13 +1,11 @@
 table 'rpt v_category_performance'
 	lineageTag: f45343f5-3976-472f-8ff1-5a672c4a5604
 
-	measure 'Category Gross Revenue' = ```
-			SUM('rpt v_category_performance'[gross_revenue])
-			```
+	measure 'Category Gross Revenue' = SUM('rpt v_category_performance'[gross_revenue])
 		formatString: "$ " #,##0.00;("$ " #,##0.00);"$ " 0.00
 		lineageTag: 4e1c8b22-a3f4-4c91-9b18-7d61e23c91a0
 
-	measure 'Category Contribution %' = ```
+	measure 'Category Contribution %' =
 			DIVIDE(
 			    [Category Gross Revenue],
 			    CALCULATE(
@@ -16,7 +14,6 @@ table 'rpt v_category_performance'
 			    ),
 			    0
 			)
-			```
 		formatString: 0.00%
 		lineageTag: 9f2b3c44-5d61-4e78-8a23-1c45e6f789b1
 

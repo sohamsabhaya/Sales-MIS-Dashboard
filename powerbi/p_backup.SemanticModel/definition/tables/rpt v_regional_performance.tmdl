@@ -1,49 +1,35 @@
 table 'rpt v_regional_performance'
 	lineageTag: 59dd23ee-4d7a-46c5-aecc-0a5f6e420515
 
-	measure 'Regional Actual Revenue' = ```
-			SUM('rpt v_regional_performance'[gross_revenue])
-			```
+	measure 'Regional Actual Revenue' = SUM('rpt v_regional_performance'[gross_revenue])
 		formatString: "$ " #,##0.00;("$ " #,##0.00);"$ " 0.00
 		lineageTag: a7b102c9-6221-491b-8da1-349c6172d58b
 
-	measure 'Regional Target Revenue' = ```
-			SUM('rpt v_regional_performance'[target_amount])
-			```
+	measure 'Regional Target Revenue' = SUM('rpt v_regional_performance'[target_amount])
 		formatString: "$ " #,##0.00;("$ " #,##0.00);"$ " 0.00
 		lineageTag: e8a209b1-7110-482a-9cb0-128a5061c47a
 
-	measure 'Target Amount' = ```
-			[Regional Target Revenue]
-			```
+	measure 'Target Amount' = [Regional Target Revenue]
 		formatString: "$ " #,##0.00;("$ " #,##0.00);"$ " 0.00
 		lineageTag: c8945a01-e24b-4b19-97ef-58a1c9704e12
 
-	measure 'Budget Variance' = ```
-			[Regional Actual Revenue] - [Regional Target Revenue]
-			```
+	measure 'Budget Variance' = [Regional Actual Revenue] - [Regional Target Revenue]
 		formatString: "$ " #,##0.00;("$ " #,##0.00);"$ " 0.00
 		lineageTag: b6d324e1-4443-4a7b-8da3-569f8194f70d
 
-	measure 'Target Gap BRL' = ```
-			[Budget Variance]
-			```
+	measure 'Target Gap BRL' = [Budget Variance]
 		formatString: "$ " #,##0.00;("$ " #,##0.00);"$ " 0.00
 		lineageTag: 8e539ca2-41df-42b7-a3e9-74d6f8304910
 
-	measure 'Target Achievement Rate' = ```
-			DIVIDE([Regional Actual Revenue], [Regional Target Revenue], 0)
-			```
+	measure 'Target Achievement Rate' = DIVIDE([Regional Actual Revenue], [Regional Target Revenue], 0)
 		formatString: 0.00%
 		lineageTag: 98c213d0-5332-498a-7cb2-458e7183e69c
 
-	measure 'Target Achievement %' = ```
-			[Target Achievement Rate]
-			```
+	measure 'Target Achievement %' = [Target Achievement Rate]
 		formatString: 0.00%
 		lineageTag: d49b1837-f83a-4421-a589-389ca05e4971
 
-	measure 'Regional Contribution %' = ```
+	measure 'Regional Contribution %' =
 			DIVIDE(
 			    [Regional Actual Revenue],
 			    CALCULATE(
@@ -55,20 +41,18 @@ table 'rpt v_regional_performance'
 			    ),
 			    0
 			)
-			```
 		formatString: 0.00%
 		lineageTag: 18b76df4-93ec-4981-817a-245f8e6c7819
 
-	measure 'Revenue Gap' = ```
+	measure 'Revenue Gap' =
 			MAX(
 			    0,
 			    [Regional Target Revenue] - [Regional Actual Revenue]
 			)
-			```
 		formatString: "$ " #,##0.00;("$ " #,##0.00);"$ " 0.00
 		lineageTag: 341a98e2-f018-47bc-8893-90d24e6a8bc7
 
-	measure 'Regional Performance Status' = ```
+	measure 'Regional Performance Status' =
 			SWITCH(
 			    TRUE(),
 			    ISBLANK([Regional Target Revenue]), "No Target",
@@ -76,10 +60,9 @@ table 'rpt v_regional_performance'
 			    [Target Achievement Rate] >= 0.9, "Near Target",
 			    "Below Target"
 			)
-			```
 		lineageTag: a17f849c-9812-4eb9-a841-3e42981bc894
 
-	measure 'Best Performing Region' = ```
+	measure 'Best Performing Region' =
 			VAR RegionTable =
 			    ADDCOLUMNS(
 			        ALL('rpt v_regional_performance'[region_name]),
@@ -98,10 +81,9 @@ table 'rpt v_regional_performance'
 			        'rpt v_regional_performance'[region_name],
 			        ", "
 			    )
-			```
 		lineageTag: 67e4198c-02a4-44a5-9271-e87f901cb58e
 
-	measure 'Worst Performing Region' = ```
+	measure 'Worst Performing Region' =
 			VAR RegionTable =
 			    ADDCOLUMNS(
 			        ALL('rpt v_regional_performance'[region_name]),
@@ -120,7 +102,6 @@ table 'rpt v_regional_performance'
 			        'rpt v_regional_performance'[region_name],
 			        ", "
 			    )
-			```
 		lineageTag: 489c17df-3891-4cf6-ba92-749e01bc8942
 
 	column year_month
@@ -215,3 +196,4 @@ table 'rpt v_regional_performance'
 				    rpt_v_regional_performance = Source{[Schema="rpt",Item="v_regional_performance"]}[Data]
 				in
 				    rpt_v_regional_performance
+
