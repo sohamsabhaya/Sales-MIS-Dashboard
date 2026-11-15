@@ -1,0 +1,17 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: sales_mis_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-soham}
+      POSTGRES_DB: ${DB_NAME:-sales_ops_db}
+    ports:
+      - "${DB_PORT:-5442}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
+    driver: local

@@ -1,0 +1,217 @@
+table 'rpt v_regional_performance'
+	lineageTag: 59dd23ee-4d7a-46c5-aecc-0a5f6e420515
+
+	measure 'Regional Actual Revenue' = ```
+			SUM('rpt v_regional_performance'[gross_revenue])
+			```
+		formatString: "$ " #,##0.00;("$ " #,##0.00);"$ " 0.00
+		lineageTag: a7b102c9-6221-491b-8da1-349c6172d58b
+
+	measure 'Regional Target Revenue' = ```
+			SUM('rpt v_regional_performance'[target_amount])
+			```
+		formatString: "$ " #,##0.00;("$ " #,##0.00);"$ " 0.00
+		lineageTag: e8a209b1-7110-482a-9cb0-128a5061c47a
+
+	measure 'Target Amount' = ```
+			[Regional Target Revenue]
+			```
+		formatString: "$ " #,##0.00;("$ " #,##0.00);"$ " 0.00
+		lineageTag: c8945a01-e24b-4b19-97ef-58a1c9704e12
+
+	measure 'Budget Variance' = ```
+			[Regional Actual Revenue] - [Regional Target Revenue]
+			```
+		formatString: "$ " #,##0.00;("$ " #,##0.00);"$ " 0.00
+		lineageTag: b6d324e1-4443-4a7b-8da3-569f8194f70d
+
+	measure 'Target Gap BRL' = ```
+			[Budget Variance]
+			```
+		formatString: "$ " #,##0.00;("$ " #,##0.00);"$ " 0.00
+		lineageTag: 8e539ca2-41df-42b7-a3e9-74d6f8304910
+
+	measure 'Target Achievement Rate' = ```
+			DIVIDE([Regional Actual Revenue], [Regional Target Revenue], 0)
+			```
+		formatString: 0.00%
+		lineageTag: 98c213d0-5332-498a-7cb2-458e7183e69c
+
+	measure 'Target Achievement %' = ```
+			[Target Achievement Rate]
+			```
+		formatString: 0.00%
+		lineageTag: d49b1837-f83a-4421-a589-389ca05e4971
+
+	measure 'Regional Contribution %' = ```
+			DIVIDE(
+			    [Regional Actual Revenue],
+			    CALCULATE(
+			        [Regional Actual Revenue],
+			        REMOVEFILTERS(
+			            'rpt v_regional_performance'[region_name],
+			            'core dim_region'[region_name]
+			        )
+			    ),
+			    0
+			)
+			```
+		formatString: 0.00%
+		lineageTag: 18b76df4-93ec-4981-817a-245f8e6c7819
+
+	measure 'Revenue Gap' = ```
+			MAX(
+			    0,
+			    [Regional Target Revenue] - [Regional Actual Revenue]
+			)
+			```
+		formatString: "$ " #,##0.00;("$ " #,##0.00);"$ " 0.00
+		lineageTag: 341a98e2-f018-47bc-8893-90d24e6a8bc7
+
+	measure 'Regional Performance Status' = ```
+			SWITCH(
+			    TRUE(),
+			    ISBLANK([Regional Target Revenue]), "No Target",
+			    [Target Achievement Rate] >= 1.0, "Above Target",
+			    [Target Achievement Rate] >= 0.9, "Near Target",
+			    "Below Target"
+			)
+			```
+		lineageTag: a17f849c-9812-4eb9-a841-3e42981bc894
+
+	measure 'Best Performing Region' = ```
+			VAR RegionTable =
+			    ADDCOLUMNS(
+			        ALL('rpt v_regional_performance'[region_name]),
+			        "@Revenue", CALCULATE([Regional Actual Revenue])
+			    )
+			VAR BestRegion =
+			    TOPN(
+			        1,
+			        RegionTable,
+			        [@Revenue], DESC,
+			        'rpt v_regional_performance'[region_name], ASC
+			    )
+			RETURN
+			    CONCATENATEX(
+			        BestRegion,
+			        'rpt v_regional_performance'[region_name],
+			        ", "
+			    )
+			```
+		lineageTag: 67e4198c-02a4-44a5-9271-e87f901cb58e
+
+	measure 'Worst Performing Region' = ```
+			VAR RegionTable =
+			    ADDCOLUMNS(
+			        ALL('rpt v_regional_performance'[region_name]),
+			        "@Achievement", CALCULATE([Target Achievement Rate])
+			    )
+			VAR WorstRegion =
+			    TOPN(
+			        1,
+			        RegionTable,
+			        [@Achievement], ASC,
+			        'rpt v_regional_performance'[region_name], ASC
+			    )
+			RETURN
+			    CONCATENATEX(
+			        WorstRegion,
+			        'rpt v_regional_performance'[region_name],
+			        ", "
+			    )
+			```
+		lineageTag: 489c17df-3891-4cf6-ba92-749e01bc8942
+
+	column year_month
+		dataType: string
+		lineageTag: a98db8ef-4fa7-44c7-9aa8-86b8ee3dcd8d
+		summarizeBy: none
+		sourceColumn: year_month
+
+		annotation SummarizationSetBy = Automatic
+
+	column region_name
+		dataType: string
+		lineageTag: 6025d36f-046c-4f8b-933b-80ef54321801
+		summarizeBy: none
+		sourceColumn: region_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column gross_revenue
+		dataType: double
+		lineageTag: 9697b4a4-fe41-4c0d-b591-a191ce94d14e
+		summarizeBy: sum
+		sourceColumn: gross_revenue
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column orders_count
+		dataType: int64
+		formatString: 0
+		lineageTag: 51f86ca3-c70f-480e-9131-52db6acfa173
+		summarizeBy: sum
+		sourceColumn: orders_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column target_amount
+		dataType: double
+		lineageTag: dc5b7839-e152-471f-b595-7b366f410133
+		summarizeBy: sum
+		sourceColumn: target_amount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column target_achievement_pct
+		dataType: double
+		lineageTag: 0af93c8c-7a30-4c52-acb8-7ac3ba19d964
+		summarizeBy: sum
+		sourceColumn: target_achievement_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column target_gap
+		dataType: double
+		lineageTag: 4cdc30ff-1a39-4cd6-97ca-4c9d2db53d54
+		summarizeBy: sum
+		sourceColumn: target_gap
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column regional_contribution_pct
+		dataType: double
+		lineageTag: b4e62293-e662-445e-a9d1-8a026a13f90b
+		summarizeBy: sum
+		sourceColumn: regional_contribution_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column is_synthetic
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 7be9a4c5-5882-44b4-9eba-465fd635af73
+		summarizeBy: none
+		sourceColumn: is_synthetic
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'rpt v_regional_performance' = m
+		mode: import
+		source =
+				let
+				    Source = PostgreSQL.Database("localhost:5442", "sales_ops_db"),
+				    rpt_v_regional_performance = Source{[Schema="rpt",Item="v_regional_performance"]}[Data]
+				in
+				    rpt_v_regional_performance

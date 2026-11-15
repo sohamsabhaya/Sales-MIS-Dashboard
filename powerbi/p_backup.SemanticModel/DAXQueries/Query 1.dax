@@ -1,0 +1,20 @@
+DEFINE
+    MEASURE 'rpt v_monthly_kpis'[Total Revenue] = 
+        SUM('rpt v_monthly_kpis'[gross_revenue])
+    
+    MEASURE 'rpt v_monthly_kpis'[Total Orders] = 
+        SUM('rpt v_monthly_kpis'[total_orders])
+    
+    MEASURE 'rpt v_monthly_kpis'[Average Order Value] = 
+        DIVIDE([Total Revenue], [Total Orders], BLANK())
+    
+    MEASURE 'rpt v_monthly_kpis'[Cancellation Rate] = 
+        AVERAGE('rpt v_monthly_kpis'[cancellation_rate_pct]) / 100
+
+EVALUATE
+    ROW(
+        "Revenue", [Total Revenue],
+        "Orders", [Total Orders],
+        "AOV", [Average Order Value],
+        "Cancellation", [Cancellation Rate]
+    )

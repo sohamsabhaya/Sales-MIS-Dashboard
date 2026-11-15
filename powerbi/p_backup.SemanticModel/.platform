@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "p_backup"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "6531a32e-edaa-4f1a-97db-ca5e866f7297"
+  }
+}

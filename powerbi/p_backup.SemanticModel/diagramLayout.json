@@ -1,0 +1,113 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 720,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 618.38305001469371,
+            "y": -41.422348979922305
+          },
+          "nodeIndex": "core dim_date",
+          "nodeLineageTag": "da5c9a7b-fa7d-497b-ab9d-9254ff21a9ea",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 852.38305001469371,
+            "y": 111
+          },
+          "nodeIndex": "core dim_region",
+          "nodeLineageTag": "16bbdcc9-9182-477f-9c72-b133ed50554d",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 334.20156119318523,
+            "y": -8.5776510200776954
+          },
+          "nodeIndex": "core fact_order",
+          "nodeLineageTag": "6f0b6d33-24cf-49d0-a1df-77780f4f9c03",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 50,
+            "y": 14.562761799677247
+          },
+          "nodeIndex": "core fact_order_item",
+          "nodeLineageTag": "99b0553d-3dbc-4578-886a-fe9f80bf9a4b",
+          "size": {
+            "height": 248,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1136.3830500146937,
+            "y": 63
+          },
+          "nodeIndex": "rpt v_category_performance",
+          "nodeLineageTag": "f45343f5-3976-472f-8ff1-5a672c4a5604",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1420.3830500146937,
+            "y": 25
+          },
+          "nodeIndex": "rpt v_monthly_kpis",
+          "nodeLineageTag": "dde6dafd-ec97-467e-b50b-fdb0d6dd5983",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1704.3830500146937,
+            "y": 27
+          },
+          "nodeIndex": "rpt v_regional_performance",
+          "nodeLineageTag": "59dd23ee-4d7a-46c5-aecc-0a5f6e420515",
+          "size": {
+            "height": 296,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "All tables",
+  "defaultDiagram": "All tables"
+}

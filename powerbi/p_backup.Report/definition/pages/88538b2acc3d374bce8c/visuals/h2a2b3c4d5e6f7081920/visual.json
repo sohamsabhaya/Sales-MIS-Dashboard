@@ -1,0 +1,46 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "h2a2b3c4d5e6f7081920",
+  "position": {
+    "x": 20.0,
+    "y": 15.0,
+    "z": 10,
+    "height": 50.0,
+    "width": 1460.0,
+    "tabOrder": 10
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "REGIONAL PERFORMANCE & TARGETS",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "16pt",
+                      "color": "#1B365D"
+                    }
+                  },
+                  {
+                    "value": "   |   Actual Gross Sales vs. Stretch Target Budget (+8%)   |   Currency: BRL (R$)",
+                    "textStyle": {
+                      "fontSize": "11pt",
+                      "color": "#595959"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}
+

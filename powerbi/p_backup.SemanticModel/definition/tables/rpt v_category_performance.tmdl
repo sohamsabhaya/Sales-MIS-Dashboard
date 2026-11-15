@@ -1,0 +1,88 @@
+table 'rpt v_category_performance'
+	lineageTag: f45343f5-3976-472f-8ff1-5a672c4a5604
+
+	measure 'Category Gross Revenue' = ```
+			SUM('rpt v_category_performance'[gross_revenue])
+			```
+		formatString: "$ " #,##0.00;("$ " #,##0.00);"$ " 0.00
+		lineageTag: 4e1c8b22-a3f4-4c91-9b18-7d61e23c91a0
+
+	measure 'Category Contribution %' = ```
+			DIVIDE(
+			    [Category Gross Revenue],
+			    CALCULATE(
+			        [Category Gross Revenue],
+			        ALL('rpt v_category_performance')
+			    ),
+			    0
+			)
+			```
+		formatString: 0.00%
+		lineageTag: 9f2b3c44-5d61-4e78-8a23-1c45e6f789b1
+
+	column category_en
+		dataType: string
+		lineageTag: a6b335a2-6478-4933-9a27-bac22bb80ac2
+		summarizeBy: none
+		sourceColumn: category_en
+
+		annotation SummarizationSetBy = Automatic
+
+	column gross_revenue
+		dataType: double
+		lineageTag: 804b41af-aa60-4781-b027-916c0fd90b54
+		summarizeBy: sum
+		sourceColumn: gross_revenue
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column items_sold
+		dataType: int64
+		formatString: 0
+		lineageTag: 0d69b075-2ab9-46b7-a725-9079dc4f222f
+		summarizeBy: sum
+		sourceColumn: items_sold
+
+		annotation SummarizationSetBy = Automatic
+
+	column orders_count
+		dataType: int64
+		formatString: 0
+		lineageTag: 607a83fd-5550-4f98-a614-b1d8bc30e7c9
+		summarizeBy: sum
+		sourceColumn: orders_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column category_aov
+		dataType: double
+		lineageTag: e3c343f5-772b-4434-a98d-4bd0297e7fc5
+		summarizeBy: sum
+		sourceColumn: category_aov
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column category_revenue_rank
+		dataType: int64
+		formatString: 0
+		lineageTag: 979b70ca-c7d1-41a4-8f45-46d9125a8551
+		summarizeBy: sum
+		sourceColumn: category_revenue_rank
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'rpt v_category_performance' = m
+		mode: import
+		source =
+				let
+				    Source = PostgreSQL.Database("localhost:5442", "sales_ops_db"),
+				    rpt_v_category_performance = Source{[Schema="rpt",Item="v_category_performance"]}[Data]
+				in
+				    rpt_v_category_performance
+
+	annotation PBI_ResultType = Table
+

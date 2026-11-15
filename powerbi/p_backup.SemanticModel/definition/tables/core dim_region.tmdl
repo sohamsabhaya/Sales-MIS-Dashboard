@@ -1,0 +1,31 @@
+table 'core dim_region'
+	lineageTag: 16bbdcc9-9182-477f-9c72-b133ed50554d
+
+	column region_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 127b892f-5de0-4ac6-8224-d911d56474ca
+		summarizeBy: sum
+		sourceColumn: region_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column region_name
+		dataType: string
+		lineageTag: 13b2d93f-e4d2-41c7-9df8-a34523c83962
+		summarizeBy: none
+		sourceColumn: region_name
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'core dim_region' = m
+		mode: import
+		source =
+				let
+				    Source = PostgreSQL.Database("localhost:5442", "sales_ops_db"),
+				    core_dim_region = Source{[Schema="core",Item="dim_region"]}[Data]
+				in
+				    core_dim_region
+
+	annotation PBI_ResultType = Table
+

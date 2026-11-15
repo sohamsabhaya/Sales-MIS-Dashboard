@@ -1,0 +1,50 @@
+relationship 319bb76c-5626-47f8-a972-e4afc51b78e3
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'core dim_date'.calendar_date
+	toColumn: LocalDateTable_2b71dafc-e499-416a-ad0e-ddf33553fde6.Date
+
+relationship 0294cb53-fa19-4416-99bf-454fe9172544
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'core fact_order'.purchase_timestamp
+	toColumn: LocalDateTable_f7f9d4a9-9009-493e-a4da-36dceb5ffc30.Date
+
+relationship ac2aa4f5-1378-4124-8088-a1f4094cad33
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'core fact_order'.approved_at
+	toColumn: LocalDateTable_13fc37f2-f908-49ea-8ae0-91d4a264ea87.Date
+
+relationship bfd326c3-5428-42e2-9fcb-7c05f30dd092
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'core fact_order'.delivered_carrier_date
+	toColumn: LocalDateTable_e97f3cf6-74a1-4ff6-9461-89be54f3b0ea.Date
+
+relationship 984e8d57-9852-4e27-aadb-1145c3fa9835
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'core fact_order'.delivered_customer_date
+	toColumn: LocalDateTable_578feb61-209a-4f9c-aa5b-5ade063d78ff.Date
+
+relationship f9a8ac38-4fb9-48b9-a221-eb47fe0f5cf5
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'core fact_order'.estimated_delivery_date
+	toColumn: LocalDateTable_b2a60ae4-f56e-409b-ab00-8b0e96972b95.Date
+
+relationship cc73d868-4666-4eb7-bd9a-3004959f6caa
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'core fact_order_item'.shipping_limit_date
+	toColumn: LocalDateTable_38f7675a-0dd9-476a-8d53-c26dee2d7b87.Date
+
+relationship 36f54ed0-bc9b-4761-9174-f3cf10db0ea6
+	fromColumn: 'core fact_order'.purchase_date_key
+	toColumn: 'core dim_date'.date_key
+
+	annotation PBI_IsFromSource = FS
+
+relationship eac2f856-85db-4d5f-bff9-bb74066bfa4e
+	fromColumn: 'core fact_order_item'.order_id
+	toColumn: 'core fact_order'.order_id
+
+	annotation PBI_IsFromSource = FS
+
+relationship c5b8a1c9-7d34-4b52-9b5e-2f17849e7011
+	fromColumn: 'rpt v_regional_performance'.region_name
+	toColumn: 'core dim_region'.region_name

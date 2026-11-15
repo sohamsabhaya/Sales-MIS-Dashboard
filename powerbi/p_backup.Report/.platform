@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "p_backup"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "d6315018-eacf-484b-b97a-12f112f10f58"
+  }
+}

@@ -1,0 +1,56 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+ENV/
+
+# Secrets & Environment variables
+.env
+*.env.local
+
+# Database / Docker
+postgres_data/
+*.sqlite3
+
+# Data files (do not commit raw 100k records or large outputs)
+data/raw/*.csv
+data/raw/*.xlsx
+data/raw/*.zip
+data/processed/*.csv
+data/processed/*.parquet
+data/quarantine/*.csv
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+!data/quarantine/.gitkeep
+
+# Generated Reports & Logs
+reports/monthly_mis/*.xlsx
+reports/data_quality/*.csv
+reports/data_quality/data_quality_report_*_*.md
+logs/*.log
+!logs/.gitkeep
+!reports/data_quality/.gitkeep
+!reports/monthly_mis/.gitkeep
+
+# IDEs & Editors
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Power BI temp files & OS artifacts
+*.tmp
+.DS_Store
+Thumbs.db
+desktop.ini
+**/.pbi/localSettings.json
+**/.pbi/editorSettings.json
+
+# Local build artifacts
+.coverage
+htmlcov/

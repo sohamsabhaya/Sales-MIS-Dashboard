@@ -1,0 +1,57 @@
+project:
+  name: "Sales Operations & MIS Analytics"
+  version: "1.0.0"
+
+paths:
+  raw_data_dir: "data/raw"
+  processed_data_dir: "data/processed"
+  quarantine_dir: "data/quarantine"
+  reports_dq_dir: "reports/data_quality"
+  reports_mis_dir: "reports/monthly_mis"
+  logs_dir: "logs"
+
+expected_raw_files:
+  orders: "olist_orders_dataset.csv"
+  order_items: "olist_order_items_dataset.csv"
+  payments: "olist_order_payments_dataset.csv"
+  reviews: "olist_order_reviews_dataset.csv"
+  customers: "olist_customers_dataset.csv"
+  products: "olist_products_dataset.csv"
+  sellers: "olist_sellers_dataset.csv"
+  translations: "product_category_name_translation.csv"
+
+reporting_window:
+  # Stable volume window for Olist e-commerce
+  start_date: "2017-01-01"
+  end_date: "2018-08-31"
+
+kpi_rules:
+  # Included statuses for Gross Revenue (excludes canceled and unavailable)
+  revenue_statuses:
+    - "delivered"
+    - "shipped"
+    - "invoiced"
+    - "approved"
+  cancellation_statuses:
+    - "canceled"
+    - "unavailable"
+
+synthetic_targets:
+  base_growth_rate: 1.08
+  seed: 42
+  variation_pct: 0.05
+  # Three region-month combinations intentionally left missing as test edge cases
+  intentional_missing:
+    - region: "North"
+      month: "2018-03"
+    - region: "Central-West"
+      month: "2018-05"
+    - region: "Northeast"
+      month: "2018-07"
+
+database:
+  schemas:
+    staging: "stg"
+    core: "core"
+    reporting: "rpt"
+    audit: "audit"

@@ -1,0 +1,33 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-IN
+	valueFilterBehavior: independent
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["rpt v_monthly_kpis","rpt v_regional_performance","rpt v_category_performance","core dim_date","core dim_region","core fact_order","core fact_order_item"]
+
+annotation PBI_ProTooling = ["DaxQueryView_Desktop","DevMode"]
+
+ref table 'rpt v_monthly_kpis'
+ref table 'rpt v_regional_performance'
+ref table 'rpt v_category_performance'
+ref table 'core dim_date'
+ref table DateTableTemplate_2135841c-8e9d-4b98-bd3c-592278cd70d1
+ref table LocalDateTable_2b71dafc-e499-416a-ad0e-ddf33553fde6
+ref table 'core dim_region'
+ref table 'core fact_order'
+ref table LocalDateTable_f7f9d4a9-9009-493e-a4da-36dceb5ffc30
+ref table LocalDateTable_13fc37f2-f908-49ea-8ae0-91d4a264ea87
+ref table LocalDateTable_e97f3cf6-74a1-4ff6-9461-89be54f3b0ea
+ref table LocalDateTable_578feb61-209a-4f9c-aa5b-5ade063d78ff
+ref table LocalDateTable_b2a60ae4-f56e-409b-ab00-8b0e96972b95
+ref table 'core fact_order_item'
+ref table LocalDateTable_38f7675a-0dd9-476a-8d53-c26dee2d7b87
+
+ref cultureInfo en-US
+

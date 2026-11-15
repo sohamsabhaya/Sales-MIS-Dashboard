@@ -1,0 +1,307 @@
+table 'rpt v_monthly_kpis'
+	lineageTag: dde6dafd-ec97-467e-b50b-fdb0d6dd5983
+
+	measure 'Gross Revenue' = ```
+			SUM('rpt v_monthly_kpis'[gross_revenue])
+			```
+		formatString: "$ " #,##0.00;("$ " #,##0.00);"$ " 0.00
+		lineageTag: 292afb00-299e-49da-b6c7-222aa4192a6f
+
+	measure 'Total Revenue' = ```
+			[Gross Revenue]
+			```
+		formatString: "$ " #,##0.00;("$ " #,##0.00);"$ " 0.00
+		lineageTag: b79e13d4-1a3b-48c2-a9b1-5e830e9d6f31
+
+	measure 'Total Orders' = ```
+			SUM('rpt v_monthly_kpis'[total_orders])
+			```
+		formatString: #,0
+		lineageTag: ce946ebd-3f4d-4c17-a1b6-e7b78f986275
+
+	measure 'Average Order Value' = ```
+			DIVIDE([Gross Revenue], [Total Orders], 0)
+			```
+		formatString: "$ " #,##0.00;("$ " #,##0.00);"$ " 0.00
+		lineageTag: 5a5c01dc-b99c-4937-b9c2-55ea652964f4
+
+	measure 'Cancelled Orders' = ```
+			CALCULATE(
+			    DISTINCTCOUNT('core fact_order'[order_id]),
+			    'core fact_order'[order_status] IN { "canceled", "unavailable" },
+			    TREATAS(VALUES('rpt v_monthly_kpis'[year_month]), 'core dim_date'[year_month])
+			)
+			```
+		formatString: #,0
+		lineageTag: c37a89e1-5bf2-41d3-a5c9-940bb2e1f487
+
+	measure 'Cancellation Rate' = ```
+			DIVIDE(
+			    [Cancelled Orders],
+			    CALCULATE(
+			        DISTINCTCOUNT('core fact_order'[order_id]),
+			        TREATAS(VALUES('rpt v_monthly_kpis'[year_month]), 'core dim_date'[year_month])
+			    ),
+			    0
+			)
+			```
+		formatString: 0.00%
+		lineageTag: b31948de-696b-42ac-af80-c5768e351509
+
+	measure 'Previous Month Revenue' = ```
+			VAR HasSingleMonth = HASONEVALUE('rpt v_monthly_kpis'[year_month])
+			VAR SelectedYM = SELECTEDVALUE('rpt v_monthly_kpis'[year_month])
+			VAR LatestActiveYM = CALCULATE(
+			    MAX('rpt v_monthly_kpis'[year_month]),
+			    REMOVEFILTERS('rpt v_monthly_kpis'),
+			    'rpt v_monthly_kpis'[total_orders] > 10
+			)
+			VAR TargetYM = IF(HasSingleMonth, SelectedYM, LatestActiveYM)
+			VAR HasTarget = NOT(ISBLANK(TargetYM))
+			VAR CurrYear = IF(HasTarget, VALUE(LEFT(TargetYM, 4)))
+			VAR CurrMonth = IF(HasTarget, VALUE(RIGHT(TargetYM, 2)))
+			VAR PrevYear = IF(CurrMonth = 1, CurrYear - 1, CurrYear)
+			VAR PrevMonth = IF(CurrMonth = 1, 12, CurrMonth - 1)
+			VAR PrevYM = IF(
+			    HasTarget,
+			    PrevYear & "-" & IF(PrevMonth < 10, "0" & PrevMonth, "" & PrevMonth)
+			)
+			VAR MonthRevenue = IF(
+			    HasTarget,
+			    CALCULATE(
+			        [Gross Revenue],
+			        REMOVEFILTERS('rpt v_monthly_kpis'),
+			        'rpt v_monthly_kpis'[year_month] = PrevYM
+			    )
+			)
+			VAR DateTableRevenue = IF(
+			    ISFILTERED('core dim_date'),
+			    CALCULATE(
+			        [Gross Revenue],
+			        DATEADD('core dim_date'[calendar_date], -1, MONTH)
+			    )
+			)
+			RETURN
+			    COALESCE(MonthRevenue, DateTableRevenue)
+			```
+		formatString: "$ " #,##0.00;("$ " #,##0.00);"$ " 0.00
+		lineageTag: d1a45bf2-98e3-4ca1-8174-9f3b5e408c1a
+
+	measure 'MoM Revenue Growth' = ```
+			VAR HasSingleMonth = HASONEVALUE('rpt v_monthly_kpis'[year_month])
+			VAR SelectedYM = SELECTEDVALUE('rpt v_monthly_kpis'[year_month])
+			VAR LatestActiveYM = CALCULATE(
+			    MAX('rpt v_monthly_kpis'[year_month]),
+			    REMOVEFILTERS('rpt v_monthly_kpis'),
+			    'rpt v_monthly_kpis'[total_orders] > 10
+			)
+			VAR TargetYM = IF(HasSingleMonth, SelectedYM, LatestActiveYM)
+			VAR CurrentRevenue = CALCULATE(
+			    [Gross Revenue],
+			    REMOVEFILTERS('rpt v_monthly_kpis'),
+			    'rpt v_monthly_kpis'[year_month] = TargetYM
+			)
+			VAR PreviousRevenue = [Previous Month Revenue]
+			RETURN
+			    DIVIDE(
+			        CurrentRevenue - PreviousRevenue,
+			        PreviousRevenue,
+			        BLANK()
+			    )
+			```
+		formatString: 0.00%
+		lineageTag: a7e39bc1-54b2-4d0f-8914-1e24bc98e721
+
+	measure 'Previous Year Revenue' = ```
+			VAR HasSingleMonth = HASONEVALUE('rpt v_monthly_kpis'[year_month])
+			VAR SelectedYM = SELECTEDVALUE('rpt v_monthly_kpis'[year_month])
+			VAR LatestActiveYM = CALCULATE(
+			    MAX('rpt v_monthly_kpis'[year_month]),
+			    REMOVEFILTERS('rpt v_monthly_kpis'),
+			    'rpt v_monthly_kpis'[total_orders] > 10
+			)
+			VAR TargetYM = IF(HasSingleMonth, SelectedYM, LatestActiveYM)
+			VAR HasTarget = NOT(ISBLANK(TargetYM))
+			VAR CurrYear = IF(HasTarget, VALUE(LEFT(TargetYM, 4)))
+			VAR CurrMonth = IF(HasTarget, VALUE(RIGHT(TargetYM, 2)))
+			VAR PrevYear = CurrYear - 1
+			VAR PrevYearYM = IF(
+			    HasTarget,
+			    PrevYear & "-" & IF(CurrMonth < 10, "0" & CurrMonth, "" & PrevMonth)
+			)
+			VAR MonthRevenue = IF(
+			    HasTarget,
+			    CALCULATE(
+			        [Gross Revenue],
+			        REMOVEFILTERS('rpt v_monthly_kpis'),
+			        'rpt v_monthly_kpis'[year_month] = PrevYearYM
+			    )
+			)
+			VAR SelectedYear = SELECTEDVALUE('rpt v_monthly_kpis'[year])
+			VAR HasSingleYear = NOT(ISBLANK(SelectedYear))
+			VAR PriorYear = IF(HasSingleYear, SelectedYear - 1)
+			VAR YearRevenue = IF(
+			    HasSingleYear && NOT(HasSingleMonth),
+			    CALCULATE(
+			        [Gross Revenue],
+			        REMOVEFILTERS('rpt v_monthly_kpis'),
+			        'rpt v_monthly_kpis'[year] = PriorYear
+			    )
+			)
+			VAR DateTableRevenue = IF(
+			    ISFILTERED('core dim_date'),
+			    CALCULATE(
+			        [Gross Revenue],
+			        SAMEPERIODLASTYEAR('core dim_date'[calendar_date])
+			    )
+			)
+			RETURN
+			    COALESCE(MonthRevenue, YearRevenue, DateTableRevenue)
+			```
+		formatString: "$ " #,##0.00;("$ " #,##0.00);"$ " 0.00
+		lineageTag: f49e12c8-71e9-408a-b83c-68de4198ef01
+
+	measure 'YoY Revenue Growth' = ```
+			VAR HasSingleMonth = HASONEVALUE('rpt v_monthly_kpis'[year_month])
+			VAR SelectedYM = SELECTEDVALUE('rpt v_monthly_kpis'[year_month])
+			VAR SelectedYear = SELECTEDVALUE('rpt v_monthly_kpis'[year])
+			VAR HasSingleYear = NOT(ISBLANK(SelectedYear))
+			VAR LatestActiveYM = CALCULATE(
+			    MAX('rpt v_monthly_kpis'[year_month]),
+			    REMOVEFILTERS('rpt v_monthly_kpis'),
+			    'rpt v_monthly_kpis'[total_orders] > 10
+			)
+			VAR TargetYM = IF(HasSingleMonth, SelectedYM, LatestActiveYM)
+			VAR CurrentRevenue = IF(
+			    HasSingleYear && NOT(HasSingleMonth),
+			    [Gross Revenue],
+			    CALCULATE(
+			        [Gross Revenue],
+			        REMOVEFILTERS('rpt v_monthly_kpis'),
+			        'rpt v_monthly_kpis'[year_month] = TargetYM
+			    )
+			)
+			VAR PreviousRevenue = [Previous Year Revenue]
+			RETURN
+			    DIVIDE(
+			        CurrentRevenue - PreviousRevenue,
+			        PreviousRevenue,
+			        BLANK()
+			    )
+			```
+		formatString: 0.00%
+		lineageTag: 712da09e-8c3b-46e2-9fb4-5a7c29be01e3
+
+	column year
+		dataType: int64
+		formatString: 0
+		lineageTag: 7335e2ac-32a5-4fec-b745-3affaff06ba0
+		summarizeBy: sum
+		sourceColumn: year
+
+		annotation SummarizationSetBy = Automatic
+
+	column month
+		dataType: int64
+		formatString: 0
+		lineageTag: 47530326-845f-4251-bd54-dd0bcf44f73e
+		summarizeBy: sum
+		sourceColumn: month
+
+		annotation SummarizationSetBy = Automatic
+
+	column year_month
+		dataType: string
+		lineageTag: a9a5f5ee-12f7-4d3b-87e0-46ede5576b14
+		summarizeBy: none
+		sourceColumn: year_month
+
+		annotation SummarizationSetBy = Automatic
+
+	column gross_revenue
+		dataType: double
+		lineageTag: 42e14889-1158-4edb-984b-85ca86aacd4b
+		summarizeBy: sum
+		sourceColumn: gross_revenue
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column freight_revenue
+		dataType: double
+		lineageTag: d9871982-a46a-43ab-9545-ddd0940150e1
+		summarizeBy: sum
+		sourceColumn: freight_revenue
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column total_orders
+		dataType: int64
+		formatString: 0
+		lineageTag: f0d199cd-d229-4065-a859-c76ed5c3ded6
+		summarizeBy: sum
+		sourceColumn: total_orders
+
+		annotation SummarizationSetBy = Automatic
+
+	column aov
+		dataType: double
+		lineageTag: 4a957460-459d-49ac-963b-c9ad12e3cbd0
+		summarizeBy: sum
+		sourceColumn: aov
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column items_per_order
+		dataType: double
+		lineageTag: c27423a4-111d-47d4-82e9-fd2caed4c79b
+		summarizeBy: sum
+		sourceColumn: items_per_order
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column mom_growth_pct
+		dataType: double
+		lineageTag: 0bfd5bc1-c747-4363-9400-67027feedac5
+		summarizeBy: sum
+		sourceColumn: mom_growth_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column cancellation_rate_pct
+		dataType: double
+		lineageTag: f7a19a1a-b92c-4f8c-8014-ab490cd88c94
+		summarizeBy: sum
+		sourceColumn: cancellation_rate_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column on_time_delivery_pct
+		dataType: double
+		lineageTag: 9a2359a2-5171-41e9-9e2a-82255a90b8a9
+		summarizeBy: sum
+		sourceColumn: on_time_delivery_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition 'rpt v_monthly_kpis' = m
+		mode: import
+		source =
+				let
+				    Source = PostgreSQL.Database("localhost:5442", "sales_ops_db"),
+				    rpt_v_monthly_kpis = Source{[Schema="rpt",Item="v_monthly_kpis"]}[Data]
+				in
+				    rpt_v_monthly_kpis
